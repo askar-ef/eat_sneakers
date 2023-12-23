@@ -8,6 +8,7 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget header() {
       return Container(
+        margin: EdgeInsets.only(top: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
