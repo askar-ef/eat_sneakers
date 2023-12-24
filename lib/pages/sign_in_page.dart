@@ -148,6 +148,7 @@ class SignInPage extends StatelessWidget {
 
     Widget footer() {
       return Container(
+        margin: EdgeInsets.only(bottom: defaultMargin),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
             'Don\'t have an account?',

@@ -1,3 +1,4 @@
+import "package:eat_sneakers/pages/widget/product_arrival.dart";
 import "package:eat_sneakers/pages/widget/product_card.dart";
 import "package:eat_sneakers/theme.dart";
 import "package:flutter/material.dart";
@@ -35,7 +36,7 @@ class HomePage extends StatelessWidget {
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: AssetImage('assets/icon_profile.png'),
+                  image: AssetImage('assets/icon_profile_blue.png'),
                 ),
               ),
             )
@@ -165,10 +166,33 @@ class HomePage extends StatelessWidget {
                 width: defaultMargin,
               ),
               Row(
-                children: [ProductCard(), ProductCard()],
+                children: [ProductCard(), ProductCard(), ProductCard()],
               )
             ],
           ),
+        ),
+      );
+    }
+
+    Widget newArrivalsTitle() {
+      return Container(
+        margin: EdgeInsets.only(
+            top: defaultMargin, right: defaultMargin, left: defaultMargin),
+        child: Text(
+          "New Arrivals",
+          style: primaryTextStyle.copyWith(fontSize: 22, fontWeight: semibold),
+        ),
+      );
+    }
+
+    Widget newArrivalProducts() {
+      return Container(
+        margin: EdgeInsets.only(top: 14),
+        child: Column(
+          children: [
+            ProductArrival(),
+            ProductArrival(),
+          ],
         ),
       );
     }
@@ -178,7 +202,9 @@ class HomePage extends StatelessWidget {
         header(),
         categories(),
         popularProductsTitle(),
-        popularProducts()
+        popularProducts(),
+        newArrivalsTitle(),
+        newArrivalProducts()
       ],
     );
   }
