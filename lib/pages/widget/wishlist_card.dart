@@ -9,10 +9,9 @@ class WishlistCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(bottom: 20),
+      margin: EdgeInsets.all(20),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15), color: backgroundColor3),
+          borderRadius: BorderRadius.circular(15), color: backgroundColor4),
       padding: EdgeInsets.all(12),
       child: Row(
         children: [
@@ -48,8 +47,8 @@ class WishlistCard extends StatelessWidget {
             ),
           ),
           Image.asset(
-            'assets/icon_like.png',
-            width: 20,
+            'assets/button_wishlist_blue.png',
+            width: 34,
           ),
           SizedBox(
             width: 10,

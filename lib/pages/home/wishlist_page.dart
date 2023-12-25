@@ -15,6 +15,7 @@ class WishlistPage extends StatelessWidget {
           'Wishlist',
           style: primaryTextStyle.copyWith(fontSize: 18, fontWeight: medium),
         ),
+        automaticallyImplyLeading: false,
       );
     }
 
@@ -68,14 +69,13 @@ class WishlistPage extends StatelessWidget {
     }
 
     Widget content() {
-      return Container(
-        margin: EdgeInsets.only(
-          top: defaultMargin,
-          left: defaultMargin,
-          right: defaultMargin,
-        ),
-        child: Column(
-          children: [WishlistCard(), WishlistCard()],
+      return Expanded(
+        child: Container(
+          width: double.infinity,
+          color: backgroundColor3,
+          child: Column(
+            children: [WishlistCard(), WishlistCard()],
+          ),
         ),
       );
     }
