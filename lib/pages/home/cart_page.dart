@@ -1,3 +1,4 @@
+import 'package:eat_sneakers/pages/widget/cart_card.dart';
 import 'package:eat_sneakers/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,7 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget header() {
+    PreferredSizeWidget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
         centerTitle: true,
@@ -69,10 +70,76 @@ class CartPage extends StatelessWidget {
       ));
     }
 
-    return Container(
-      child: Column(
-        children: [header(), emptyCart()],
-      ),
+    Widget content() {
+      return Expanded(
+        child: ListView(
+          padding:
+              EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 15),
+          children: [CartCard()],
+        ),
+      );
+    }
+
+    Widget customBottomNav() {
+      return Container(
+        height: 180,
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Subtotal',
+                    style: primaryTextStyle.copyWith(fontSize: 14),
+                  ),
+                  Text(
+                    'IDR2.700',
+                    style: priceTextStyle.copyWith(
+                        fontSize: 16, fontWeight: semibold),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.all(defaultMargin),
+              child: Column(
+                children: [
+                  Divider(
+                    thickness: 0.2,
+                    color: priceColor,
+                  ),
+                  SizedBox(
+                    height: defaultMargin,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: primaryColor),
+                    child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Continue to Checkout',
+                          style: primaryTextStyle.copyWith(
+                              fontSize: 16, fontWeight: semibold),
+                        )),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Scaffold(
+      backgroundColor: backgroundColor3,
+      appBar: header(),
+      body: content(),
+      bottomNavigationBar: customBottomNav(),
     );
   }
 }

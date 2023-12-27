@@ -9,7 +9,7 @@ class WishlistCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(20),
+      margin: EdgeInsets.only(top: 12, right: 20, left: 20),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15), color: backgroundColor4),
       padding: EdgeInsets.all(12),

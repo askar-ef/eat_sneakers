@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import "package:eat_sneakers/pages/home/cart_page.dart";
+import 'package:eat_sneakers/pages/home/cart_page.dart';
 import "package:eat_sneakers/pages/home/checkout_success_page.dart";
 import "package:eat_sneakers/pages/home/detail_chat_page.dart";
 import "package:eat_sneakers/pages/home/edit_profile_page.dart";
 import "package:eat_sneakers/pages/home/main_page.dart";
+import "package:eat_sneakers/pages/home/product_page.dart";
 import "package:eat_sneakers/pages/sign_in_page.dart";
 import "package:eat_sneakers/pages/sign_up_page.dart";
 import "package:eat_sneakers/pages/splash_screen.dart";
@@ -27,7 +29,8 @@ class MyApp extends StatelessWidget {
         '/detail-chat': (context) => DetailChatPage(),
         '/edit-profile': (context) => EditProfilePage(),
         '/cart': (context) => CartPage(),
-        '/checkout-success': (context) => CheckoutSuccessPage()
+        '/checkout-success': (context) => CheckoutSuccessPage(),
+        '/product': (context) => ProductPage()
       },
     );
   }

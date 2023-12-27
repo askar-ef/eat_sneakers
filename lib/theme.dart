@@ -25,6 +25,7 @@ TextStyle blackTextStyle = GoogleFonts.poppins(color: blackTextColor);
 TextStyle purpleTextStyle = GoogleFonts.poppins(color: primaryColor);
 TextStyle darkpurpleTextStyle = GoogleFonts.poppins(color: backgroundColor5);
 TextStyle priceTextStyle = GoogleFonts.poppins(color: priceColor);
+TextStyle alertTextStyle = GoogleFonts.poppins(color: alertColor);
 
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.w400;

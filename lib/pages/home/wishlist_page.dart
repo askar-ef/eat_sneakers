@@ -73,8 +73,17 @@ class WishlistPage extends StatelessWidget {
         child: Container(
           width: double.infinity,
           color: backgroundColor3,
-          child: Column(
-            children: [WishlistCard(), WishlistCard()],
+          child: ListView(
+            children: [
+              WishlistCard(),
+              WishlistCard(),
+              WishlistCard(),
+              WishlistCard(),
+              WishlistCard(),
+              WishlistCard(),
+              WishlistCard(),
+              WishlistCard(),
+            ],
           ),
         ),
       );
