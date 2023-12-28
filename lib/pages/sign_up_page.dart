@@ -1,11 +1,59 @@
+import "package:eat_sneakers/pages/widget/loading_button.dart";
+import "package:eat_sneakers/providers/auth_provider.dart";
 import "package:eat_sneakers/theme.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class SignUpPage extends StatefulWidget {
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  // const SignUpPage({super.key});
+  final TextEditingController nameController = TextEditingController(text: '');
+
+  final TextEditingController usernameController =
+      TextEditingController(text: '');
+
+  final TextEditingController emailController = TextEditingController(text: '');
+
+  final TextEditingController passwordController =
+      TextEditingController(text: '');
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    handleSignUp() async {
+      setState(() {
+        isLoading = true;
+      });
+      if (await authProvider.register(
+        name: nameController.text,
+        username: usernameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+      )) {
+        Navigator.pushNamed(context, '/home');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: alertColor,
+            content: Text(
+              'Sign Up Failed',
+              style: primaryTextStyle,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+      setState(() {
+        isLoading = false;
+      });
+    }
+
     Widget header() {
       return Container(
         margin: EdgeInsets.only(top: 20),
@@ -66,6 +114,7 @@ class SignUpPage extends StatelessWidget {
                 ),
                 Expanded(
                     child: TextFormField(
+                  controller: nameController,
                   style: primaryTextStyle,
                   decoration: InputDecoration.collapsed(
                       hintText: 'Your Full Name', hintStyle: tertiaryTextStyle),
@@ -112,6 +161,7 @@ class SignUpPage extends StatelessWidget {
                 ),
                 Expanded(
                     child: TextFormField(
+                  controller: usernameController,
                   style: primaryTextStyle,
                   decoration: InputDecoration.collapsed(
                       hintText: 'Your Username', hintStyle: tertiaryTextStyle),
@@ -158,6 +208,7 @@ class SignUpPage extends StatelessWidget {
                 ),
                 Expanded(
                     child: TextFormField(
+                  controller: emailController,
                   style: primaryTextStyle,
                   decoration: InputDecoration.collapsed(
                       hintText: 'Your Email', hintStyle: tertiaryTextStyle),
@@ -204,6 +255,7 @@ class SignUpPage extends StatelessWidget {
                 ),
                 Expanded(
                     child: TextFormField(
+                  controller: passwordController,
                   obscureText: true,
                   style: primaryTextStyle,
                   decoration: InputDecoration.collapsed(
@@ -223,7 +275,7 @@ class SignUpPage extends StatelessWidget {
         margin: EdgeInsets.only(top: 30),
         child: TextButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/sign-in');
+            handleSignUp();
           },
           style: TextButton.styleFrom(
               backgroundColor: primaryColor,
@@ -277,7 +329,7 @@ class SignUpPage extends StatelessWidget {
             usernameInput(),
             emailInput(),
             passwordInput(),
-            signUpButton(),
+            isLoading ? LoadingButton() : signUpButton(),
             Spacer(),
             footer()
           ]),

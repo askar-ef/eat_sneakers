@@ -1,3 +1,4 @@
+import 'package:eat_sneakers/pages/home/checkout_page.dart';
 import 'package:eat_sneakers/pages/widget/cart_card.dart';
 import 'package:eat_sneakers/theme.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +121,9 @@ class CartPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                         color: primaryColor),
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/checkout');
+                        },
                         child: Text(
                           'Continue to Checkout',
                           style: primaryTextStyle.copyWith(
