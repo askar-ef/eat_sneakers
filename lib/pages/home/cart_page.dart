@@ -79,7 +79,7 @@ class CartPage extends StatelessWidget {
         child: ListView(
           padding:
               EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 15),
-          children: cartProvider.carts.map((cart) => CartCard(cart)).toList(),
+          children: cartProvider.carts.map((carts) => CartCard(carts)).toList(),
         ),
       );
     }
