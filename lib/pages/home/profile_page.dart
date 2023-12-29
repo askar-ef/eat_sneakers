@@ -1,11 +1,17 @@
+import "package:eat_sneakers/models/user_model.dart";
+import "package:eat_sneakers/providers/auth_provider.dart";
 import "package:eat_sneakers/theme.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserModel user = authProvider.user;
+
     Widget header() {
       return Container(
         margin: EdgeInsets.only(
@@ -19,10 +25,10 @@ class ProfilePage extends StatelessWidget {
               margin: EdgeInsets.only(right: defaultMargin),
               width: 64,
               height: 64,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: AssetImage('assets/icon_profile_blue.png'),
+                  image: NetworkImage(user.profilePhotoUrl),
                 ),
               ),
             ),
@@ -31,12 +37,12 @@ class ProfilePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Halo, Alex!',
+                    'Halo, ${user.name}!',
                     style: primaryTextStyle.copyWith(
                         fontSize: 24, fontWeight: semibold),
                   ),
                   Text(
-                    '@alexkein',
+                    '@${user.username}',
                     style: tertiaryTextStyle.copyWith(fontSize: 16),
                   )
                 ],

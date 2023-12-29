@@ -48,4 +48,43 @@ class AuthServices {
       throw http.ClientException('Gagal Register. Error: $e', url);
     }
   }
+
+  Future<UserModel> login({
+    required String email,
+    required String password,
+  }) async {
+    var url = Uri.parse('$baseUrl/login');
+    var headers = {'Content-Type': 'application/json'};
+    var body = jsonEncode({
+      'email': email,
+      'password': password,
+    });
+
+    try {
+      var response = await http.post(
+        url,
+        headers: headers,
+        body: body,
+      );
+
+      print('Login Response: ${response.statusCode}');
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body)['data'];
+        UserModel user = UserModel.fromJson(data['user']);
+        user.token = 'Bearer ' + data['access_token'];
+
+        return user;
+      } else {
+        throw http.ClientException(
+          'Gagal Login. Status Code: ${response.statusCode}',
+          url,
+        );
+      }
+    } catch (e) {
+      print('Gagal Login. Error: $e');
+      throw http.ClientException('Gagal Login. Error: $e', url);
+    }
+  }
 }
