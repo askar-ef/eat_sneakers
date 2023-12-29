@@ -1,14 +1,20 @@
+import 'package:eat_sneakers/models/product_model.dart';
+import 'package:eat_sneakers/pages/home/product_page.dart';
 import 'package:eat_sneakers/theme.dart';
 import 'package:flutter/material.dart';
 
 class ProductArrival extends StatelessWidget {
-  const ProductArrival({super.key});
+  // const ProductArrival({super.key});
+
+  final ProductModel product;
+  ProductArrival(this.product);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/product');
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ProductPage(product)));
       },
       child: Container(
         margin: EdgeInsets.only(
@@ -32,14 +38,14 @@ class ProductArrival extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Running',
+                    product.category.name,
                     style: tertiaryTextStyle.copyWith(fontSize: 12),
                   ),
                   SizedBox(
                     height: 6,
                   ),
                   Text(
-                    'Ultraboost Camo 2024',
+                    product.name,
                     style: primaryTextStyle.copyWith(
                         fontSize: 16, fontWeight: semibold),
                   ),
@@ -47,7 +53,7 @@ class ProductArrival extends StatelessWidget {
                     height: 6,
                   ),
                   Text(
-                    'IDR2.700',
+                    'IDR${product.price}00',
                     style: priceTextStyle.copyWith(
                         fontSize: 14, fontWeight: medium),
                   )

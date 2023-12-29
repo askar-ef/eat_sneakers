@@ -9,7 +9,7 @@ class ProductModel {
   String tags;
   CategoryModel category;
   DateTime? createdAt;
-  DateTime? upadatedAt;
+  DateTime? updatedAt;
   List<GalleryModel> galleries;
 
   ProductModel({
@@ -20,25 +20,63 @@ class ProductModel {
     required this.tags,
     required this.category,
     this.createdAt,
-    this.upadatedAt,
+    this.updatedAt,
     required this.galleries,
   });
 
-  factory ProductModel.toJson(Map<String, dynamic> json) {
+  // factory ProductModel.fromJson(Map<String, dynamic> json) {
+  //   return ProductModel(
+  //     id: json['id'],
+  //     name: json['name'],
+  //     price: json['price'].toDouble(),
+  //     description: json['description'],
+  //     tags: json['tags'],
+  //     category: CategoryModel.fromJson(json['category']),
+  //     galleries: (json['galleries'] as List<dynamic>)
+  //         .map<GalleryModel>((gallery) => GalleryModel.fromJson(gallery))
+  //         .toList(),
+  //     createdAt: DateTime.parse(json['created_at']),
+  //     updatedAt: DateTime.parse(json['updated_at']),
+  //   );
+  // }
+
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
       id: json['id'],
       name: json['name'],
-      price: json['price'],
+      price: (json['price'] as num).toDouble(),
       description: json['description'],
       tags: json['tags'],
       category: CategoryModel.fromJson(json['category']),
       galleries: (json['galleries'] as List<dynamic>)
           .map<GalleryModel>((gallery) => GalleryModel.fromJson(gallery))
           .toList(),
-      createdAt: DateTime.parse(json['created_at']),
-      upadatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : null,
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
+          : null,
     );
   }
+
+  // factory ProductModel.fromJson(Map<String, dynamic> json) {
+  //   return ProductModel(
+  //     id: json['id'],
+  //     name: json['name'],
+  //     price: (json['price'] as num).toDouble(), // Konversi ke double
+  //     description: json['description'],
+  //     tags: json['tags'],
+  //     category: CategoryModel.fromJson(json['category']),
+  //     galleries: (json['galleries'] as List<dynamic>)
+  //         .map<GalleryModel>((gallery) => GalleryModel.fromJson(gallery))
+  //         .toList(),
+  //     createdAt: DateTime.parse(json['created_at']),
+  //     updatedAt: json['updated_at'] != null
+  //         ? DateTime.parse(json['updated_at'])
+  //         : null,
+  //   );
+  // }
 
   Map<String, dynamic> toJson() {
     return {
@@ -50,7 +88,7 @@ class ProductModel {
       'category': category.toJson(),
       'galleries': galleries.map((gallery) => gallery.toJson()).toList(),
       'createdAt': createdAt.toString(),
-      'updatedAt': upadatedAt.toString()
+      'updatedAt': updatedAt.toString()
     };
   }
 }

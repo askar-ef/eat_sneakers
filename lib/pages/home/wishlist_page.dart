@@ -1,12 +1,16 @@
 import "package:eat_sneakers/pages/widget/wishlist_card.dart";
+import "package:eat_sneakers/providers/wishlist_provider.dart";
 import "package:eat_sneakers/theme.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class WishlistPage extends StatelessWidget {
   const WishlistPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    WishlistProvider wishlistProvider = Provider.of<WishlistProvider>(context);
+
     Widget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
@@ -48,7 +52,9 @@ class WishlistPage extends StatelessWidget {
               Container(
                 height: 44,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/home');
+                  },
                   style: TextButton.styleFrom(
                       backgroundColor: primaryColor,
                       shape: RoundedRectangleBorder(
@@ -71,26 +77,21 @@ class WishlistPage extends StatelessWidget {
     Widget content() {
       return Expanded(
         child: Container(
-          width: double.infinity,
-          color: backgroundColor3,
-          child: ListView(
-            children: [
-              WishlistCard(),
-              WishlistCard(),
-              WishlistCard(),
-              WishlistCard(),
-              WishlistCard(),
-              WishlistCard(),
-              WishlistCard(),
-              WishlistCard(),
-            ],
-          ),
-        ),
+            width: double.infinity,
+            color: backgroundColor3,
+            child: ListView(
+              children: wishlistProvider.wishlist
+                  .map((product) => WishlistCard(product))
+                  .toList(),
+            )),
       );
     }
 
     return Column(
-      children: [header(), content()],
+      children: [
+        header(),
+        wishlistProvider.wishlist.length == 0 ? emptyWishlist() : content()
+      ],
     );
   }
 }

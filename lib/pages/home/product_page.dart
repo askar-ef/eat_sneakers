@@ -1,16 +1,24 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:eat_sneakers/models/product_model.dart';
+import 'package:eat_sneakers/providers/cart_provider.dart';
+import 'package:eat_sneakers/providers/wishlist_provider.dart';
 import 'package:eat_sneakers/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductPage extends StatefulWidget {
+  final ProductModel product;
+  ProductPage(this.product);
+
   @override
   State<ProductPage> createState() => _ProductPageState();
 }
 
 class _ProductPageState extends State<ProductPage> {
   // const ProductPage({super.key});
+
   List image = [
     'assets/image_shoes.png',
     'assets/image_shoes.png',
@@ -30,10 +38,12 @@ class _ProductPageState extends State<ProductPage> {
   ];
 
   int currentIndex = 0;
-  bool isWishlist = false;
 
   @override
   Widget build(BuildContext context) {
+    WishlistProvider wishlistProvider = Provider.of<WishlistProvider>(context);
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+
     Future<void> showSuccessDialog() async {
       return showDialog(
           context: context,
@@ -202,12 +212,12 @@ class _ProductPageState extends State<ProductPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Ultraboost Camo',
+                              widget.product.name,
                               style: primaryTextStyle.copyWith(
                                   fontSize: 18, fontWeight: semibold),
                             ),
                             Text(
-                              'Running',
+                              widget.product.category.name,
                               style: secondaryTextStyle.copyWith(fontSize: 12),
                             ),
                           ],
@@ -215,10 +225,8 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          setState(() {
-                            isWishlist = !isWishlist;
-                          });
-                          if (isWishlist) {
+                          wishlistProvider.setProduct(widget.product);
+                          if (wishlistProvider.isWishlist(widget.product)) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor: secondaryColor,
@@ -243,7 +251,7 @@ class _ProductPageState extends State<ProductPage> {
                           }
                         },
                         child: Image.asset(
-                          isWishlist == true
+                          wishlistProvider.isWishlist(widget.product)
                               ? 'assets/button_wishlist_blue.png'
                               : 'assets/button_wishlist_grey.png',
                           width: 46,
@@ -268,7 +276,7 @@ class _ProductPageState extends State<ProductPage> {
                           style: primaryTextStyle,
                         ),
                         Text(
-                          'IDR2.700',
+                          'IDR${widget.product.price}00',
                           style: priceTextStyle.copyWith(
                               fontSize: 16, fontWeight: semibold),
                         ),
@@ -289,11 +297,11 @@ class _ProductPageState extends State<ProductPage> {
                         height: 12,
                       ),
                       Text(
-                        'Unpaved trails and mixed surfaces are easy when you have the traction and support you need. Casual enough for the daily commute. Unpaved trails and mixed surfaces are easy when you have the traction and support you need. Casual enough for the daily commute.',
+                        widget.product.description,
                         style: tertiaryTextStyle.copyWith(fontWeight: light),
                       ),
                       SizedBox(
-                        height: 30,
+                        height: 10,
                       ),
                       Text(
                         'Familiar Shoes',
@@ -343,6 +351,7 @@ class _ProductPageState extends State<ProductPage> {
                       height: 54,
                       child: TextButton(
                         onPressed: () {
+                          cartProvider.addCarts(widget.product);
                           showSuccessDialog();
                         },
                         style: TextButton.styleFrom(

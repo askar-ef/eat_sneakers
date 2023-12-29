@@ -1,8 +1,12 @@
+import 'package:eat_sneakers/models/cart_model.dart';
 import 'package:eat_sneakers/theme.dart';
 import 'package:flutter/material.dart';
 
 class CartCard extends StatelessWidget {
-  const CartCard({super.key});
+  // const CartCard({super.key});
+
+  final CartModel cart;
+  CartCard(this.cart);
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +33,14 @@ class CartCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Ultraboost Camo',
+                      cart.product.name,
                       style: primaryTextStyle.copyWith(
                           fontSize: 14, fontWeight: semibold),
                     ),
                     SizedBox(
                       height: 2,
                     ),
-                    Text('IDR2.700',
+                    Text('IDR${cart.product.price}000',
                         style: priceTextStyle.copyWith(
                           fontSize: 14,
                         )),
@@ -49,7 +53,8 @@ class CartCard extends StatelessWidget {
                     'assets/icon_plus_circle.png',
                     width: 16,
                   ),
-                  Text('2', style: primaryTextStyle.copyWith(fontSize: 14)),
+                  Text(cart.quantity.toString(),
+                      style: primaryTextStyle.copyWith(fontSize: 14)),
                   Image.asset(
                     'assets/icon_min_circle.png',
                     width: 16,

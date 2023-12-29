@@ -1,13 +1,16 @@
-import 'package:eat_sneakers/pages/home/checkout_page.dart';
 import 'package:eat_sneakers/pages/widget/cart_card.dart';
+import 'package:eat_sneakers/providers/cart_provider.dart';
 import 'package:eat_sneakers/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+
     PreferredSizeWidget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
@@ -76,7 +79,7 @@ class CartPage extends StatelessWidget {
         child: ListView(
           padding:
               EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 15),
-          children: [CartCard()],
+          children: cartProvider.carts.map((cart) => CartCard(cart)).toList(),
         ),
       );
     }

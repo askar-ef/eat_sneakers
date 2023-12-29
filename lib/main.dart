@@ -11,7 +11,9 @@ import "package:eat_sneakers/pages/sign_in_page.dart";
 import "package:eat_sneakers/pages/sign_up_page.dart";
 import "package:eat_sneakers/pages/splash_screen.dart";
 import "package:eat_sneakers/providers/auth_provider.dart";
+import "package:eat_sneakers/providers/cart_provider.dart";
 import "package:eat_sneakers/providers/products_provider.dart";
+import "package:eat_sneakers/providers/wishlist_provider.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
@@ -30,6 +32,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => ProductProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => WishlistProvider(),
+        ),
+        ChangeNotifierProvider(create: (context) => CartProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -43,7 +49,6 @@ class MyApp extends StatelessWidget {
           '/cart': (context) => CartPage(),
           '/checkout': (context) => CheckoutPage(),
           '/checkout-success': (context) => CheckoutSuccessPage(),
-          '/product': (context) => ProductPage(),
         },
       ),
     );

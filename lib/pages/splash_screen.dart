@@ -19,16 +19,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // Provider.of<ProductProvider>(context).getProducts();
 
-    // Timer(
-    //   Duration(seconds: 3),
-    //   () => Navigator.pushNamed(context, '/sign-up'),
-    // );
-    // super.initState();
+    Timer(
+      Duration(seconds: 3),
+      () => Navigator.pushNamed(context, '/sign-up'),
+    );
+    super.initState();
   }
 
   getInit() async {
-    Provider.of<ProductProvider>(context, listen: false).getProducts();
-    Navigator.pushNamed(context, '/sign-in');
+    await Provider.of<ProductProvider>(context, listen: false).getProducts();
+    //   Navigator.pushNamed(context, '/sign-in');
   }
 
   @override

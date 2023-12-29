@@ -6,19 +6,21 @@ class ProductProvider with ChangeNotifier {
   List<ProductModel> _products = [];
   List<ProductModel> get products => _products;
 
+  // Setter yang benar
   set products(List<ProductModel> products) {
     _products = products;
     notifyListeners();
-
-    Future<void> getProducts() async {
-      try {
-        List<ProductModel> products = await ProductServices().getProducts();
-        _products = products;
-      } catch (e) {
-        print(e);
-      }
-    }
   }
 
-  void getProducts() {}
+  // Metode getProducts yang benar
+  Future<void> getProducts() async {
+    try {
+      List<ProductModel> products = await ProductServices().getProducts();
+      _products = products;
+      notifyListeners();
+      print('Products: $_products');
+    } catch (e) {
+      print(e);
+    }
+  }
 }
