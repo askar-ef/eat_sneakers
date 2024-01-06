@@ -54,7 +54,7 @@ class CartPage extends StatelessWidget {
               height: 44,
               child: TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/checkout-success');
+                  Navigator.pushNamed(context, '/home');
                 },
                 style: TextButton.styleFrom(
                     backgroundColor: primaryColor,
@@ -99,7 +99,7 @@ class CartPage extends StatelessWidget {
                     style: primaryTextStyle.copyWith(fontSize: 14),
                   ),
                   Text(
-                    'IDR2.700',
+                    'IDR${cartProvider.totalPrice()}00',
                     style: priceTextStyle.copyWith(
                         fontSize: 16, fontWeight: semibold),
                   ),
@@ -144,8 +144,9 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor3,
       appBar: header(),
-      body: content(),
-      bottomNavigationBar: customBottomNav(),
+      body: cartProvider.carts.length == 0 ? emptyCart() : content(),
+      bottomNavigationBar:
+          cartProvider.carts.length == 0 ? SizedBox() : customBottomNav(),
     );
   }
 }

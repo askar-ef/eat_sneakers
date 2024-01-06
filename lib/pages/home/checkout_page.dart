@@ -1,11 +1,32 @@
+import 'package:eat_sneakers/pages/widget/checkout_card.dart';
+import 'package:eat_sneakers/providers/auth_provider.dart';
+import 'package:eat_sneakers/providers/cart_provider.dart';
+import 'package:eat_sneakers/providers/transaction_provider.dart';
 import 'package:eat_sneakers/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CheckoutPage extends StatelessWidget {
   const CheckoutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+    TransactionProvider transactionProvider =
+        Provider.of<TransactionProvider>(context);
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    handleCheckout() async {
+      if (authProvider.user.token != null) {
+        if (await transactionProvider.checkout(authProvider.user.token!,
+            cartProvider.carts, cartProvider.totalPrice())) {
+          cartProvider.carts = [];
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/checkout-success', (route) => false);
+        }
+      }
+    }
+
     PreferredSizeWidget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
@@ -33,52 +54,14 @@ class CheckoutPage extends StatelessWidget {
           SizedBox(
             height: 12,
           ),
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: backgroundColor4),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-            child: Row(
-              children: [
-                ClipRRect(
-                  child: Image.asset(
-                    'assets/image_shoes.png',
-                    width: 60,
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                SizedBox(
-                  width: 12,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Ultraboost Camo',
-                        style: primaryTextStyle.copyWith(
-                            fontSize: 14, fontWeight: semibold),
-                      ),
-                      Text(
-                        'IDR2.700',
-                        style: priceTextStyle.copyWith(
-                            fontSize: 14, fontWeight: medium),
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  '2 Items',
-                  style: secondaryTextStyle.copyWith(fontSize: 12),
-                )
-              ],
-            ),
-          ),
+          Column(
+              children: cartProvider.carts
+                  .map((cart) => CheckoutCard(cart))
+                  .toList()),
 
           // Address
           SizedBox(
-            height: 30,
+            height: 20,
           ),
           Container(
             decoration: BoxDecoration(
@@ -181,7 +164,7 @@ class CheckoutPage extends StatelessWidget {
                           fontSize: 12, fontWeight: light),
                     ),
                     Text(
-                      '2 Items',
+                      '${cartProvider.totalItems()} Items',
                       style: primaryTextStyle.copyWith(
                           fontSize: 14, fontWeight: medium),
                     ),
@@ -193,12 +176,12 @@ class CheckoutPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Product Quantity',
+                      'Product Price',
                       style: secondaryTextStyle.copyWith(
                           fontSize: 12, fontWeight: light),
                     ),
                     Text(
-                      '2 Items',
+                      'IDR${cartProvider.totalPrice()}00',
                       style: primaryTextStyle.copyWith(
                           fontSize: 14, fontWeight: medium),
                     ),
@@ -210,12 +193,12 @@ class CheckoutPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Product Quantity',
+                      'Shipping',
                       style: secondaryTextStyle.copyWith(
                           fontSize: 12, fontWeight: light),
                     ),
                     Text(
-                      '2 Items',
+                      'Free',
                       style: primaryTextStyle.copyWith(
                           fontSize: 14, fontWeight: medium),
                     ),
@@ -238,7 +221,7 @@ class CheckoutPage extends StatelessWidget {
                           fontSize: 14, fontWeight: semibold),
                     ),
                     Text(
-                      'IDR5.400',
+                      'IDR${cartProvider.totalPrice()}00',
                       style: priceTextStyle.copyWith(
                           fontSize: 14, fontWeight: semibold),
                     ),
@@ -253,11 +236,14 @@ class CheckoutPage extends StatelessWidget {
 
     Widget customBottomNav() {
       return Container(
-        height: 200,
+        height: 110,
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.all(defaultMargin),
+              margin: EdgeInsets.only(
+                  left: defaultMargin,
+                  right: defaultMargin,
+                  bottom: defaultMargin),
               child: Column(
                 children: [
                   Divider(
@@ -275,8 +261,7 @@ class CheckoutPage extends StatelessWidget {
                         color: primaryColor),
                     child: TextButton(
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/checkout-success', (route) => false);
+                          handleCheckout();
                         },
                         child: Text(
                           'Checkout Now',
