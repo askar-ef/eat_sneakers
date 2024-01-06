@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "338457827290",
+    "project_id": "eat-sneakers-e8166",
+    "storage_bucket": "eat-sneakers-e8166.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338457827290:android:81ac44f7745e35c95292e3",
+        "android_client_info": {
+          "package_name": "com.askaref.eat_sneakers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEh_DattgzbLJSC2CQFqD9kwjXdICvJZ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

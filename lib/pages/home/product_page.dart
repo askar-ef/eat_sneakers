@@ -2,6 +2,7 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eat_sneakers/models/product_model.dart';
+import 'package:eat_sneakers/pages/home/detail_chat_page.dart';
 import 'package:eat_sneakers/providers/cart_provider.dart';
 import 'package:eat_sneakers/providers/wishlist_provider.dart';
 import 'package:eat_sneakers/theme.dart';
@@ -336,7 +337,12 @@ class _ProductPageState extends State<ProductPage> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/detail-chat');
+                      // Navigator.pushNamed(context, '/detail-chat');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailChatPage(widget.product)));
                     },
                     child: Image.asset(
                       'assets/button_chat.png',

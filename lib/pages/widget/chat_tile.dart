@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:eat_sneakers/models/product_model.dart';
+import 'package:eat_sneakers/pages/home/detail_chat_page.dart';
 import 'package:eat_sneakers/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +12,12 @@ class ChatTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/detail-chat');
+        // Navigator.pushNamed(context, '/detail-chat');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    DetailChatPage(UninitializedProductModel())));
       },
       child: Container(
         child: Column(children: [

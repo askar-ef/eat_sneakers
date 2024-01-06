@@ -1,10 +1,17 @@
+import 'package:eat_sneakers/models/product_model.dart';
 import 'package:eat_sneakers/pages/widget/chat_bubble.dart';
 import 'package:eat_sneakers/theme.dart';
 import 'package:flutter/material.dart';
 
-class DetailChatPage extends StatelessWidget {
-  const DetailChatPage({super.key});
+class DetailChatPage extends StatefulWidget {
+  ProductModel product;
+  DetailChatPage(this.product);
 
+  @override
+  State<DetailChatPage> createState() => _DetailChatPageState();
+}
+
+class _DetailChatPageState extends State<DetailChatPage> {
   @override
   Widget build(BuildContext context) {
     Widget header() {
@@ -69,22 +76,29 @@ class DetailChatPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Ultraboost Camo',
+                  widget.product.name,
                   style: primaryTextStyle.copyWith(
                       fontWeight: regular, fontSize: 14),
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  'IDR2.700',
+                  'IDR${widget.product.price}00',
                   style:
                       priceTextStyle.copyWith(fontWeight: medium, fontSize: 14),
                 ),
               ],
             ),
           ),
-          Image.asset(
-            'assets/button_close.png',
-            width: 22,
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                widget.product = UninitializedProductModel();
+              });
+            },
+            child: Image.asset(
+              'assets/button_close.png',
+              width: 22,
+            ),
           )
         ]),
       );
@@ -97,7 +111,9 @@ class DetailChatPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            productPreview(),
+            widget.product is UninitializedProductModel
+                ? SizedBox()
+                : productPreview(),
             Row(
               children: [
                 Expanded(

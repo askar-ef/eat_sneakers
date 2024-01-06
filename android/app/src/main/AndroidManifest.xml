@@ -2,7 +2,7 @@
 
     <application
         android:label="eat_sneakers"
-        android:name="${applicationName}"
+        android:name="androidx.multidex.MultiDexApplication"
         android:icon="@mipmap/ic_launcher">
 
         <activity
