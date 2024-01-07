@@ -1,9 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eat_sneakers/models/message_model.dart';
 import 'package:eat_sneakers/models/product_model.dart';
 import 'package:eat_sneakers/models/user_model.dart';
 
 class MessageServices {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  Stream<List<MessageModel>> getMessagesByUserId({required int userId}) {
+    try {
+      return firestore
+          .collection('messages')
+          .where('userId', isEqualTo: userId)
+          .snapshots()
+          .map((QuerySnapshot list) {
+        var result = list.docs.map<MessageModel>((DocumentSnapshot message) {
+          // print(message.data());
+          return MessageModel.fromJson(message.data() as Map<String, dynamic>);
+        }).toList();
+
+        result.sort((MessageModel a, MessageModel b) =>
+            a.createdAt!.compareTo(b.createdAt!));
+        return result;
+      });
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   Future<void> addMessage(
       {UserModel? user,
@@ -19,8 +41,8 @@ class MessageServices {
         'message': message,
         'product':
             product is UninitializedProductModel ? {} : product?.toJson(),
-        'createdAt': DateTime.now().toString(),
-        'updatedAt': DateTime.now().toString(),
+        'created_at': DateTime.now().toString(),
+        'updated_at': DateTime.now().toString(),
       }).then((value) => print('Pesan berhasil dikirim'));
     } catch (e) {
       throw Exception('pesan gagal dikirim');

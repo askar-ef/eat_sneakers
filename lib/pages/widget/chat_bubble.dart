@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:eat_sneakers/models/product_model.dart';
 import 'package:eat_sneakers/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,9 +7,13 @@ import 'package:google_fonts/google_fonts.dart';
 class ChatBubble extends StatelessWidget {
   String text;
   bool isSender;
-  bool hasProduct;
+  final ProductModel? product;
 
-  ChatBubble({this.isSender = true, this.text = '', this.hasProduct = false});
+  ChatBubble({
+    this.isSender = true,
+    this.text = '',
+    this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +100,7 @@ class ChatBubble extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(top: defaultMargin),
+      margin: EdgeInsets.only(top: 10),
       child: Row(
         mainAxisAlignment:
             isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -105,7 +110,9 @@ class ChatBubble extends StatelessWidget {
               crossAxisAlignment:
                   isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
               children: [
-                hasProduct ? productPreview() : SizedBox(),
+                product is UninitializedProductModel
+                    ? SizedBox()
+                    : productPreview(),
                 Container(
                   constraints: BoxConstraints(
                       maxWidth: MediaQuery.of(context).size.width * 0.7),

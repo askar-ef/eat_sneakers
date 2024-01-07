@@ -1,3 +1,4 @@
+import 'package:eat_sneakers/models/message_model.dart';
 import 'package:eat_sneakers/models/product_model.dart';
 import 'package:eat_sneakers/pages/widget/chat_bubble.dart';
 import 'package:eat_sneakers/providers/auth_provider.dart';
@@ -150,6 +151,7 @@ class _DetailChatPageState extends State<DetailChatPage> {
                         decoration: InputDecoration.collapsed(
                             hintText: 'Type Message ...',
                             hintStyle: secondaryTextStyle),
+                        style: primaryTextStyle,
                       ),
                     ),
                   ),
@@ -174,19 +176,33 @@ class _DetailChatPageState extends State<DetailChatPage> {
     }
 
     Widget content() {
-      return ListView(
-        padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-        children: [
-          ChatBubble(
-            text: 'ngetes doang ini',
-            hasProduct: true,
-          ),
-          ChatBubble(
-            isSender: false,
-            text: 'oke test diterima tapi tunggu dulu jangan bikin malu',
-            hasProduct: false,
-          )
-        ],
+      return StreamBuilder<List<MessageModel>>(
+        stream:
+            MessageServices().getMessagesByUserId(userId: authProvider.user.id),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView(
+              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+              children: snapshot.data!
+                  .map((MessageModel message) => ChatBubble(
+                        isSender: message.isFromUser,
+                        text: message.message,
+                      ))
+                  .toList(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                "Error: ${snapshot.error}",
+                style: primaryTextStyle,
+              ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       );
     }
 
