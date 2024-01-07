@@ -18,14 +18,27 @@ import "package:eat_sneakers/providers/wishlist_provider.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
+import 'firebase_options.dart';
 
-void main() => runApp(const MyApp());
+// void main() => runApp(const MyApp());
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
 //   await Firebase.initializeApp();
 //   runApp(MyApp());
 // }
+
+void main() async {
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    runApp(MyApp());
+  } catch (e, stackTrace) {
+    print('Firebase initialization failed: $e\n$stackTrace');
+  }
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

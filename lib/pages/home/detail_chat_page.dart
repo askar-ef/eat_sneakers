@@ -1,7 +1,10 @@
 import 'package:eat_sneakers/models/product_model.dart';
 import 'package:eat_sneakers/pages/widget/chat_bubble.dart';
+import 'package:eat_sneakers/providers/auth_provider.dart';
+import 'package:eat_sneakers/services/message_service.dart';
 import 'package:eat_sneakers/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DetailChatPage extends StatefulWidget {
   ProductModel product;
@@ -12,8 +15,26 @@ class DetailChatPage extends StatefulWidget {
 }
 
 class _DetailChatPageState extends State<DetailChatPage> {
+  TextEditingController messageController = TextEditingController(text: '');
+
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    handleAddMessage() async {
+      await MessageServices().addMessage(
+        user: authProvider.user,
+        isFromUser: true,
+        product: widget.product,
+        message: messageController.text,
+      );
+      setState(() {
+        widget.product = UninitializedProductModel();
+        messageController.text = '';
+      });
+    }
+
+    ;
     Widget header() {
       return AppBar(
         backgroundColor: backgroundColor3,
@@ -125,6 +146,7 @@ class _DetailChatPageState extends State<DetailChatPage> {
                         borderRadius: BorderRadius.circular(12)),
                     child: Center(
                       child: TextFormField(
+                        controller: messageController,
                         decoration: InputDecoration.collapsed(
                             hintText: 'Type Message ...',
                             hintStyle: secondaryTextStyle),
@@ -135,9 +157,14 @@ class _DetailChatPageState extends State<DetailChatPage> {
                 SizedBox(
                   width: 12,
                 ),
-                Image.asset(
-                  'assets/button_send.png',
-                  width: 45,
+                GestureDetector(
+                  onTap: () {
+                    handleAddMessage();
+                  },
+                  child: Image.asset(
+                    'assets/button_send.png',
+                    width: 45,
+                  ),
                 )
               ],
             ),
