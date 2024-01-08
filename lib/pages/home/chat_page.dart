@@ -1,12 +1,20 @@
+import "package:eat_sneakers/models/message_model.dart";
 import "package:eat_sneakers/pages/widget/chat_tile.dart";
+import "package:eat_sneakers/providers/auth_provider.dart";
+import "package:eat_sneakers/providers/page_provider.dart";
+import "package:eat_sneakers/services/message_service.dart";
 import "package:eat_sneakers/theme.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class ChatPage extends StatelessWidget {
   const ChatPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    PageProvider pageProvider = Provider.of<PageProvider>(context);
+
     Widget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
@@ -46,7 +54,9 @@ class ChatPage extends StatelessWidget {
           Container(
             height: 44,
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                pageProvider.currentIndex = 0;
+              },
               style: TextButton.styleFrom(
                 backgroundColor: primaryColor,
                 shape: RoundedRectangleBorder(
@@ -68,13 +78,29 @@ class ChatPage extends StatelessWidget {
     }
 
     Widget content() {
-      return Container(
-        margin: EdgeInsets.only(
-            right: defaultMargin, top: defaultMargin, left: defaultMargin),
-        child: Column(
-          children: [ChatTile()],
-        ),
-      );
+      return StreamBuilder<List<MessageModel>>(
+          stream: MessageServices()
+              .getMessagesByUserId(userId: authProvider.user.id),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.length == 0) {
+                return emptyChat();
+              }
+              return Container(
+                margin: EdgeInsets.only(
+                    right: defaultMargin,
+                    top: defaultMargin,
+                    left: defaultMargin),
+                child: Column(
+                  children: [
+                    ChatTile(snapshot.data![snapshot.data!.length - 1])
+                  ],
+                ),
+              );
+            } else {
+              return emptyChat();
+            }
+          });
     }
 
     return Column(

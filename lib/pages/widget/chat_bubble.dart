@@ -51,7 +51,7 @@ class ChatBubble extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Ultraboost Camo',
+                    product!.name,
                     style: primaryTextStyle.copyWith(fontSize: 14),
                     overflow: TextOverflow.visible,
                   ),
@@ -59,7 +59,7 @@ class ChatBubble extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    'IDR2.700',
+                    'IDR${product!.price}00',
                     style: priceTextStyle.copyWith(
                         fontSize: 14, fontWeight: medium),
                   ),

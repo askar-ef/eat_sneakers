@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:eat_sneakers/models/message_model.dart';
 import 'package:eat_sneakers/models/product_model.dart';
 import 'package:eat_sneakers/pages/home/detail_chat_page.dart';
 import 'package:eat_sneakers/theme.dart';
 import 'package:flutter/material.dart';
 
 class ChatTile extends StatelessWidget {
-  const ChatTile({super.key});
+  final MessageModel message;
+  ChatTile(this.message);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class ChatTile extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      'Good night, this item is on tour',
+                      message.message,
                       style: secondaryTextStyle.copyWith(
                           fontSize: 14, fontWeight: regular),
                       overflow: TextOverflow.ellipsis,

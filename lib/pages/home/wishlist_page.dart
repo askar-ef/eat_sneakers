@@ -1,4 +1,5 @@
 import "package:eat_sneakers/pages/widget/wishlist_card.dart";
+import "package:eat_sneakers/providers/page_provider.dart";
 import "package:eat_sneakers/providers/wishlist_provider.dart";
 import "package:eat_sneakers/theme.dart";
 import "package:flutter/material.dart";
@@ -10,6 +11,7 @@ class WishlistPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WishlistProvider wishlistProvider = Provider.of<WishlistProvider>(context);
+    PageProvider pageProvider = Provider.of<PageProvider>(context);
 
     Widget header() {
       return AppBar(
@@ -53,7 +55,7 @@ class WishlistPage extends StatelessWidget {
                 height: 44,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/home');
+                    pageProvider.currentIndex = 0;
                   },
                   style: TextButton.styleFrom(
                       backgroundColor: primaryColor,

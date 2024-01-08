@@ -35,7 +35,6 @@ class _DetailChatPageState extends State<DetailChatPage> {
       });
     }
 
-    ;
     Widget header() {
       return AppBar(
         backgroundColor: backgroundColor3,
@@ -74,9 +73,9 @@ class _DetailChatPageState extends State<DetailChatPage> {
     Widget productPreview() {
       return Container(
         width: 225,
-        height: 74,
+        height: 90,
         padding: EdgeInsets.all(10),
-        margin: EdgeInsets.only(bottom: 20),
+        margin: EdgeInsets.only(bottom: 10, left: 10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: backgroundColor5,
@@ -86,7 +85,7 @@ class _DetailChatPageState extends State<DetailChatPage> {
             borderRadius: BorderRadius.circular(12),
             child: Image.asset(
               'assets/image_shoes.png',
-              width: 54,
+              width: 62,
             ),
           ),
           SizedBox(
@@ -101,6 +100,7 @@ class _DetailChatPageState extends State<DetailChatPage> {
                   widget.product.name,
                   style: primaryTextStyle.copyWith(
                       fontWeight: regular, fontSize: 14),
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
@@ -128,7 +128,6 @@ class _DetailChatPageState extends State<DetailChatPage> {
 
     Widget chatInput() {
       return Container(
-        margin: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -136,39 +135,44 @@ class _DetailChatPageState extends State<DetailChatPage> {
             widget.product is UninitializedProductModel
                 ? SizedBox()
                 : productPreview(),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 45,
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                        color: backgroundColor4,
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Center(
-                      child: TextFormField(
-                        controller: messageController,
-                        decoration: InputDecoration.collapsed(
-                            hintText: 'Type Message ...',
-                            hintStyle: secondaryTextStyle),
-                        style: primaryTextStyle,
+            Container(
+              color: backgroundColor1,
+              padding:
+                  EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 45,
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                          color: backgroundColor4,
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Center(
+                        child: TextFormField(
+                          controller: messageController,
+                          decoration: InputDecoration.collapsed(
+                              hintText: 'Type Message ...',
+                              hintStyle: secondaryTextStyle),
+                          style: primaryTextStyle,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 12,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    handleAddMessage();
-                  },
-                  child: Image.asset(
-                    'assets/button_send.png',
-                    width: 45,
+                  SizedBox(
+                    width: 12,
                   ),
-                )
-              ],
+                  GestureDetector(
+                    onTap: () {
+                      handleAddMessage();
+                    },
+                    child: Image.asset(
+                      'assets/button_send.png',
+                      width: 45,
+                    ),
+                  )
+                ],
+              ),
             ),
           ],
         ),
@@ -187,6 +191,7 @@ class _DetailChatPageState extends State<DetailChatPage> {
                   .map((MessageModel message) => ChatBubble(
                         isSender: message.isFromUser,
                         text: message.message,
+                        product: message.product,
                       ))
                   .toList(),
             );
@@ -206,12 +211,23 @@ class _DetailChatPageState extends State<DetailChatPage> {
       );
     }
 
-    return Container(
-      child: Scaffold(
-        backgroundColor: backgroundColor3,
-        body: Column(
-          children: [header(), Expanded(child: content()), chatInput()],
-        ),
+    return Scaffold(
+      backgroundColor: backgroundColor3,
+      body: Column(
+        children: [
+          header(),
+          Expanded(
+            child: Stack(
+              children: [
+                Positioned.fill(child: content()),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: chatInput(),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

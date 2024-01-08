@@ -1,5 +1,6 @@
 import 'package:eat_sneakers/pages/widget/cart_card.dart';
 import 'package:eat_sneakers/providers/cart_provider.dart';
+import 'package:eat_sneakers/providers/page_provider.dart';
 import 'package:eat_sneakers/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,7 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
+    PageProvider pageProvider = Provider.of<PageProvider>(context);
 
     PreferredSizeWidget header() {
       return AppBar(
@@ -54,6 +56,7 @@ class CartPage extends StatelessWidget {
               height: 44,
               child: TextButton(
                 onPressed: () {
+                  pageProvider.currentIndex = 0;
                   Navigator.pushNamed(context, '/home');
                 },
                 style: TextButton.styleFrom(
